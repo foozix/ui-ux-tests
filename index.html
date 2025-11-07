@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Maquette</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f5f8;
+      --sidebar-bg: #ffffff;
+      --border: #e4e6eb;
+      --text: #1d1f2c;
+      --muted: #6f7686;
+      --primary: #6840f6;
+      --success: #22c55e;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .sidebar {
+      width: 240px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar h1 {
+      font-size: 20px;
+      margin: 0 0 24px;
+      font-weight: 600;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-item.active,
+    .nav-item:hover {
+      background: rgba(104, 64, 246, 0.08);
+      color: var(--primary);
+    }
+
+    .nav-item span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 12px;
+      background: var(--border);
+    }
+
+    .nav-item.active span {
+      background: var(--primary);
+    }
+
+    .nav-item .badge {
+      margin-left: auto;
+      font-size: 12px;
+      background: #f0f1f6;
+      color: var(--muted);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #c4c7d1;
+    }
+
+    .profile h3 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .profile span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+      background: var(--sidebar-bg);
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .content {
+      padding: 32px;
+    }
+
+    .tabs {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .tab {
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      color: var(--muted);
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .tab.active {
+      background: rgba(104, 64, 246, 0.1);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid #e9ebf3;
+    }
+
+    .stat-card h3 {
+      margin: 0;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat-value {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .stat-value strong {
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    .trend {
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--success);
+    }
+
+    .trend.down {
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--danger);
+    }
+
+    .filters {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      background: #fff;
+      border: 1px solid #e2e5ed;
+      color: var(--muted);
+    }
+
+    .chip.active {
+      background: var(--text);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1px solid #e2e5ed;
+      border-radius: 8px;
+      padding: 8px 12px;
+      gap: 8px;
+    }
+
+    .search input {
+      border: none;
+      outline: none;
+      font-size: 14px;
+      flex: 1;
+      color: var(--muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #e9ebf3;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 16px 20px;
+      font-size: 14px;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 500;
+      border-bottom: 1px solid #eef0f6;
+    }
+
+    tbody tr + tr {
+      border-top: 1px solid #eef0f6;
+    }
+
+    .status {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(104, 64, 246, 0.08);
+      color: var(--primary);
+      display: inline-block;
+    }
+
+    .status.churned {
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--danger);
+    }
+
+    .users {
+      display: flex;
+      align-items: center;
+    }
+
+    .user-stack {
+      display: flex;
+      margin-right: 12px;
+    }
+
+    .user-stack span {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: #d7d9e5;
+      display: block;
+      margin-left: -8px;
+    }
+
+    .user-stack span:first-child {
+      margin-left: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1024px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+      }
+
+      .main {
+        width: 100%;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      table,
+      th,
+      td {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <h1>Untitled UI</h1>
+    <nav class="nav-section">
+      <div class="nav-title">Menu</div>
+      <div class="nav-item"><span></span>Home</div>
+      <div class="nav-item active"><span></span>Notifications <span class="badge">10</span></div>
+      <div class="nav-item"><span></span>Projects</div>
+      <div class="nav-item"><span></span>Tasks</div>
+      <div class="nav-item"><span></span>Reporting</div>
+      <div class="nav-item"><span></span>Users</div>
+    </nav>
+    <nav class="nav-section">
+      <div class="nav-title">Support</div>
+      <div class="nav-item"><span></span>Settings</div>
+      <div class="nav-item"><span></span>Support</div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="profile">
+        <div class="avatar"></div>
+        <div>
+          <h3>Frankie Sullivan</h3>
+          <span>@frankie</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header>
+      <h2>Customers</h2>
+      <div class="header-actions">
+        <button class="btn">Import</button>
+        <button class="btn primary">+ Add Customer</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="tabs">
+        <div class="tab active">Overview</div>
+        <div class="tab">All</div>
+        <div class="tab">B2B</div>
+        <div class="tab">B2C</div>
+        <div class="tab">Segment</div>
+        <div class="tab">Custom</div>
+      </div>
+
+      <section class="stats">
+        <div class="stat-card">
+          <h3>Total Customers</h3>
+          <div class="stat-value">
+            <strong>2,420</strong>
+            <div class="trend">▲ 20%</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <h3>Members</h3>
+          <div class="stat-value">
+            <strong>1,210</strong>
+            <div class="trend">▲ 15%</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <h3>Active now</h3>
+          <div class="stat-value">
+            <strong>316</strong>
+            <div class="trend down">▼ 2%</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <h3>New this month</h3>
+          <div class="stat-value">
+            <strong>86</strong>
+            <div class="trend">▲ 12%</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="filters">
+        <div class="filter-group">
+          <div class="chip active">Customers</div>
+          <div class="chip">Segments</div>
+        </div>
+        <div class="search">
+          <span>🔍</span>
+          <input type="text" placeholder="Search">
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>About</th>
+            <th>Status</th>
+            <th>Users</th>
+            <th>Last Updated</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>Catalog</strong>
+              <div class="muted">catalogapp.io</div>
+            </td>
+            <td>Content curation app<br><span class="muted">All your news in one place</span></td>
+            <td><span class="status">Customer</span></td>
+            <td>
+              <div class="users">
+                <div class="user-stack">
+                  <span></span><span></span><span></span>
+                </div>
+                8 users
+              </div>
+            </td>
+            <td>10 Jan, 2023</td>
+            <td>
+              <div class="actions">✏️ • ⋯</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Catalog</strong>
+              <div class="muted">catalogapp.io</div>
+            </td>
+            <td>Design software<br><span class="muted">Faster, together design app</span></td>
+            <td><span class="status">Customer</span></td>
+            <td>
+              <div class="users">
+                <div class="user-stack">
+                  <span></span><span></span><span></span>
+                </div>
+                12 users
+              </div>
+            </td>
+            <td>8 Jan, 2023</td>
+            <td><div class="actions">✏️ • ⋯</div></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Catalog</strong>
+              <div class="muted">catalogapp.io</div>
+            </td>
+            <td>Data protection<br><span class="muted">AI and machine learning data</span></td>
+            <td><span class="status churned">Churned</span></td>
+            <td>
+              <div class="users">
+                <div class="user-stack">
+                  <span></span><span></span><span></span>
+                </div>
+                5 users
+              </div>
+            </td>
+            <td>6 Jan, 2023</td>
+            <td><div class="actions">✏️ • ⋯</div></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Catalog</strong>
+              <div class="muted">catalogapp.io</div>
+            </td>
+            <td>Sales CRM<br><span class="muted">Automate your sales management</span></td>
+            <td><span class="status">Customer</span></td>
+            <td>
+              <div class="users">
+                <div class="user-stack">
+                  <span></span><span></span><span></span>
+                </div>
+                9 users
+              </div>
+            </td>
+            <td>4 Jan, 2023</td>
+            <td><div class="actions">✏️ • ⋯</div></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <button class="btn">Previous</button>
+        <div>Page 1 of 10</div>
+        <button class="btn">Next</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
